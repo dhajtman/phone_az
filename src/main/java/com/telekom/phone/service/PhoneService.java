@@ -1,6 +1,8 @@
 package com.telekom.phone.service;
 
 import com.telekom.phone.model.Phone;
+import com.telekom.phone.repository.PhoneRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,10 +11,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class PhoneService {
+    private final PhoneRepository phoneRepository;
+
     private List<Phone> phones = new ArrayList<>();
 
-    public PhoneService() {
-        // Inicializace seznamu telefonů
+    @Autowired
+    public PhoneService(PhoneRepository phoneRepository) {
+        this.phoneRepository = phoneRepository;
+
         phones.add(new Phone(1L, "iPhone"));
         phones.add(new Phone(2L, "Samsung Galaxy"));
         phones.add(new Phone(3L, "Google Pixel"));
@@ -30,14 +36,9 @@ public class PhoneService {
         phones = newPhones;
     }
 
-    // Method to update data from a primary source
     public void updateFromPrimarySource() {
-        List<Phone> primarySourcePhones = List.of(
-                new Phone(5L, "OnePlus"),
-                new Phone(6L, "Nokia"),
-                new Phone(7L, "Sony Xperia"),
-                new Phone(8L, "Sony Xperia")
-        );
+        List<Phone> primarySourcePhones = phoneRepository.findAll();
+
         updatePhones(primarySourcePhones);
     }
 }

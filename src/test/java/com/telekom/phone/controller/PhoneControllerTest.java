@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -46,6 +47,7 @@ public class PhoneControllerTest {
     }
 
     @Test
+    @DirtiesContext
     public void testUpdatePhones() throws Exception {
         mockMvc.perform(post("/phone/update")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -54,6 +56,6 @@ public class PhoneControllerTest {
         mockMvc.perform(get("/phone/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{'id':6,'name':'Nokia'},{'id':5,'name':'OnePlus'},{'id':7,'name':'Sony Xperia'}]"));
+                .andExpect(content().json("[{\"id\":3,\"name\":\"Google Pixel\"},{\"id\":1,\"name\":\"iPhone\"},{\"id\":6,\"name\":\"Nokia\"},{\"id\":5,\"name\":\"OnePlus\"},{\"id\":2,\"name\":\"Samsung Galaxy\"},{\"id\":7,\"name\":\"Sony Xperia\"}]"));
     }
 }
