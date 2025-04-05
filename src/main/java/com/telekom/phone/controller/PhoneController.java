@@ -4,10 +4,7 @@ import com.telekom.phone.model.Phone;
 import com.telekom.phone.service.PhoneService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +27,11 @@ public class PhoneController {
     public ResponseEntity<Void> updatePhones() {
         phoneService.updateFromPrimarySource();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Phone> getPhoneById(@PathVariable("id") Long id) {
+        Phone phone = phoneService.getPhoneById(id);
+        return new ResponseEntity<>(phone, HttpStatus.OK);
     }
 }

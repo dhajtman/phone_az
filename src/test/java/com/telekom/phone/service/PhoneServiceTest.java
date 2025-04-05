@@ -1,17 +1,18 @@
 package com.telekom.phone.service;
 
+import com.telekom.phone.exception.PhoneNotFoundException;
 import com.telekom.phone.model.Phone;
 import com.telekom.phone.repository.PhoneRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -66,5 +67,23 @@ public class PhoneServiceTest {
         assertEquals("Huawei", phones.get(0).getName());
         assertEquals("Motorola", phones.get(1).getName());
         assertEquals("Xiaomi", phones.get(2).getName());
+    }
+
+    @Test
+    public void testGetPhoneById() {
+        Phone phone = new Phone(1L, "iPhone");
+        when(phoneRepository.findById(1L)).thenReturn(Optional.of(phone));
+
+        Phone result = phoneService.getPhoneById(1L);
+
+        assertEquals(1L, result.getId());
+        assertEquals("iPhone", result.getName());
+    }
+
+    @Test
+    public void testGetPhoneByIdNotFound() {
+        when(phoneRepository.findById(5L)).thenReturn(Optional.empty());
+
+        assertThrows(PhoneNotFoundException.class, () -> phoneService.getPhoneById(5L));
     }
 }

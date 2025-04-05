@@ -1,5 +1,6 @@
 package com.telekom.phone.service;
 
+import com.telekom.phone.exception.PhoneNotFoundException;
 import com.telekom.phone.model.Phone;
 import com.telekom.phone.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,17 @@ public class PhoneService {
         List<Phone> primarySourcePhones = phoneRepository.findAll();
 
         updatePhones(primarySourcePhones);
+    }
+
+    public Phone getPhoneByIdFromPrimarySource(Long id) {
+        return phoneRepository.findById(id)
+                .orElseThrow(() -> new PhoneNotFoundException("Phone not found with id: " + id));
+    }
+
+    public Phone getPhoneById(Long id) {
+        return phones.stream()
+                .filter(phone -> phone.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new PhoneNotFoundException("Phone not found with id: " + id));
     }
 }
