@@ -2,6 +2,7 @@ package com.telekom.phone.controller;
 
 import com.telekom.phone.model.Phone;
 import com.telekom.phone.service.PhoneService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,11 @@ public class PhoneController {
     public ResponseEntity<Phone> getPhoneById(@PathVariable("id") Long id) {
         Phone phone = phoneService.getPhoneById(id);
         return new ResponseEntity<>(phone, HttpStatus.OK);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Phone> createPhone(@Valid @RequestBody Phone phone) {
+        Phone createdPhone = phoneService.createPhone(phone);
+        return new ResponseEntity<>(createdPhone, HttpStatus.CREATED);
     }
 }

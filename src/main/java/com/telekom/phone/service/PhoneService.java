@@ -26,6 +26,7 @@ public class PhoneService {
         phones.add(new Phone(4L, "Google Pixel"));
     }
 
+
     public List<Phone> getAllPhones() {
         return phones.stream()
                 .distinct()
@@ -53,5 +54,9 @@ public class PhoneService {
                 .filter(phone -> phone.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new PhoneNotFoundException("Phone not found with id: " + id));
+    }
+
+    public Phone createPhone(Phone phone) {
+        return phoneRepository.save(phone);
     }
 }

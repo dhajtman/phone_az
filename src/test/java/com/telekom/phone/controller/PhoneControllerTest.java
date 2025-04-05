@@ -1,7 +1,9 @@
 package com.telekom.phone.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.telekom.phone.model.Phone;
 import com.telekom.phone.service.PhoneService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
 
@@ -27,6 +30,9 @@ public class PhoneControllerTest {
 
     @Autowired
     private PhoneService phoneService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setUp() {
@@ -57,5 +63,28 @@ public class PhoneControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":3,\"name\":\"Google Pixel\"},{\"id\":1,\"name\":\"iPhone\"},{\"id\":6,\"name\":\"Nokia\"},{\"id\":5,\"name\":\"OnePlus\"},{\"id\":2,\"name\":\"Samsung Galaxy\"},{\"id\":7,\"name\":\"Sony Xperia\"}]"));
+    }
+
+    @Test
+    public void testCreatePhone() throws Exception {
+        Phone newPhone = new Phone("OnePlusTest");
+
+        ResultActions resultActions = mockMvc.perform(post("/phone/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newPhone)))
+                .andExpect(status().isCreated());
+        Phone createdPhone = objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), Phone.class);
+        Assertions.assertEquals(newPhone.getName(), createdPhone.getName());
+    }
+
+    @Test
+    public void testCreatePhoneNotValid() throws Exception {
+        Phone newPhone = new Phone("x");
+
+        ResultActions resultActions = mockMvc.perform(post("/phone/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(newPhone)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("{\"name\":\"Name must be between 2 and 50 characters\"}"));
     }
 }
