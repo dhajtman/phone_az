@@ -21,8 +21,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+@DirtiesContext
 public class PhoneControllerTest {
 
     @Autowired
@@ -66,6 +67,7 @@ public class PhoneControllerTest {
     }
 
     @Test
+    @DirtiesContext
     public void testCreatePhone() throws Exception {
         Phone newPhone = new Phone("OnePlusTest");
 
@@ -78,6 +80,7 @@ public class PhoneControllerTest {
     }
 
     @Test
+    @DirtiesContext
     public void testCreatePhoneNotValid() throws Exception {
         Phone newPhone = new Phone("x");
 
