@@ -105,6 +105,60 @@
           "mode": "inherit"
         }
       }
+    },
+    {
+      "type": "http",
+      "name": "create",
+      "filename": "create.bru",
+      "seq": 6,
+      "request": {
+        "url": "http://localhost:8080/phone/create",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "  {\n    \"name\": \"test2\"\n  }",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "create_not_valid",
+      "filename": "create_not_valid.bru",
+      "seq": 7,
+      "request": {
+        "url": "http://localhost:8080/phone/create",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "  {\n    \"name\": \"\"\n  }",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
     }
   ],
   "environments": [],
