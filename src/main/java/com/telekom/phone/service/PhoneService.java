@@ -59,4 +59,22 @@ public class PhoneService {
     public Phone createPhone(Phone phone) {
         return phoneRepository.save(phone);
     }
+
+    public void deletePhone(Long id) {
+        phoneRepository.deleteById(id);
+    }
+
+    public Phone updatePhone(Phone phone) {
+        return phoneRepository.save(phone);
+    }
+
+    public List<Phone> filterByName(String name) {
+        return phones.stream()
+                .filter(phone -> phone.getName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+    }
+
+    public List<Phone> nameContains(String value) {
+        return phones.stream().filter(p -> p.getName().contains(value)).collect(Collectors.toList());
+    }
 }
