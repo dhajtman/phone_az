@@ -49,6 +49,8 @@ Create a Java application that returns a sorted list of phones using a REST inte
    ```bash
    kind delete cluster --name=phone 
    ```
+7. **Access the application:**
+   http://localhost/swagger-ui/index.html
 
 ### Running Tests
 To run the tests, use the following Maven command:
