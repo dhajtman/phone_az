@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phone-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phone-app
+  template:
+    metadata:
+      labels:
+        app: phone-app
+    spec:
+      containers:
+        - name: phone-app
+          image: telekom-app-api:1.0.0
+          ports:
+            - containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: phone-service
+spec:
+  selector:
+    app: phone-app
+  ports:
+    - port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phone-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: phone-service
+                port:
+                  number: 8080
+---

@@ -1,4 +1,4 @@
-# Phone Application
+# Simple Spring Boot Application running on KinD
 
 ## Project Requirements
 
@@ -17,11 +17,37 @@ Create a Java application that returns a sorted list of phones using a REST inte
    ```
 2. **Build the Docker image:**
    ```bash
-   docker build -t telekom-spring-boot-docker .
+   docker build -t telekom-app-api .
    ```
 3. **Run the Docker container:**
    ```bash
    docker run --name telekom-app-api -p 8080:8080 -t telekom-spring-boot-docker
+   ```
+
+### Deploying app to k8s
+1. **Create KinD cluster:**
+   ```bash
+   kind create cluster --config k8s/kind-cluster.yml
+   ```
+2. **Install Ingress Controller:**
+   ```bash
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+   ```
+3. **Build and tag docker image:**
+   ```bash
+   docker build -t telekom-app-api:1.0.0 -f k8s/Dockerfile .
+   ```
+4. **Load Docker image into KinD:**
+   ```bash
+   kind load docker-image telekom-app-api:1.0.0 --name=phone
+   ```
+5. **Apply Deployment, Service and Ingress configuration:**
+   ```bash
+   kubectl apply -f k8s/app-deploy.yml
+   ```
+6. **Delete KinD cluster:**
+   ```bash
+   kind delete cluster --name=phone 
    ```
 
 ### Running Tests
