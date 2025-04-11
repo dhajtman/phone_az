@@ -52,6 +52,34 @@ Create a Java application that returns a sorted list of phones using a REST inte
 7. **Access the application:**
    http://localhost/swagger-ui/index.html
 
+### Deploying KinD Dashboard 
+1. **Add repository:**
+   ```bash
+   helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+   ```
+2. **Install dashboard:**
+   ```bash
+   helm upgrade --install kubernetes-dashboard k8s-dashboard/kubernetes-dashboard --create-namespace -n kubernetes-dashboard
+   ```
+3. **List Dashboard resources:**
+   ```bash
+   kubectl get all -n kubernetes-dashboard
+   ```
+4. **Forward dashboard service:**
+   ```bash
+   kubectl port-forward service/kubernetes-dashboard-kong-proxy 8443:443 -n kubernetes-dashboard
+   ```
+5. **Deploy service account:**
+   ```bash
+   kubectl apply -f k8s/service-account.yml
+   ```
+6. **Generate token:**
+   ```bash
+   kubectl -n kube-system create token admin-user
+   ```
+7. **Access the dashboard:**
+   http://localhost:8443/ with generated token
+
 ### Running Tests
 To run the tests, use the following Maven command:
 ```bash
