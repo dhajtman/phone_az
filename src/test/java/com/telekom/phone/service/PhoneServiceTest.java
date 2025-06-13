@@ -3,9 +3,11 @@ package com.telekom.phone.service;
 import com.telekom.phone.exception.PhoneNotFoundException;
 import com.telekom.phone.model.Phone;
 import com.telekom.phone.repository.PhoneRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -20,8 +22,13 @@ public class PhoneServiceTest {
     @Mock
     private PhoneRepository phoneRepository;
 
-    @InjectMocks
     private PhoneService phoneService;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        phoneService = new PhoneServiceImpl(phoneRepository); // Use the concrete implementation
+    }
 
     @Test
     public void testGetAllPhones() {
