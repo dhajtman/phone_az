@@ -68,4 +68,4 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          terraform -chdir=$TF_DIR apply -auto-approve -var-file=openai.auto.tfvars
+          terraform -chdir=$TF_DIR apply -auto-approve
