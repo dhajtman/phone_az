@@ -37,8 +37,6 @@ jobs:
       - name: Setup Terraform Backend
         id: backend
         run: |
-          echo "Using org: ${TF_CLOUD_ORGANIZATION}"
-
           cat > "${TF_DIR}"/backend.tf << EOF
           terraform {
             backend "remote" {
@@ -59,3 +57,6 @@ jobs:
         run: |
           terraform -chdir=$TF_DIR init -reconfigure 
 
+      - name: Terraform Apply
+        run: |
+          terraform -chdir=$TF_DIR apply -auto-approve -var="openai_api_key=$OPENAI_API_KEY"

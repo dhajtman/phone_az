@@ -98,3 +98,35 @@ spring.application.name=phone
 
 ### Application Access
 Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
+
+### Setting up AWS
+1. **Create Service Account and key:**
+   ```bash
+   IAM_USER_NAME="cicd_sa"
+   aws iam create-user --user-name $IAM_USER_NAME
+   aws iam put-user-policy \
+     --user-name cicd_sa \
+     --policy-name FullTerraformCICDPolicy \
+     --policy-document '{
+       "Version": "2012-10-17",
+       "Statement": [
+         {
+           "Effect": "Allow",
+           "Action": [
+             "ec2:*",
+             "elasticloadbalancing:*",
+             "ecr:*",
+             "ecs:*",
+             "iam:*",
+             "logs:*"
+           ],
+           "Resource": "*"
+         }
+       ]
+     }'
+   aws iam create-access-key --user-name $IAM_USER_NAME
+   ```
+2. **Set Gitlab CI/CD variables:**
+   - `AWS_ACCOUNT_ID`: your AWS account ID
+   - `AWS_ACCESS_KEY_ID`: your AWS access key ID
+   - `AWS_SECRET_ACCESS_KEY`: your AWS secret access key
