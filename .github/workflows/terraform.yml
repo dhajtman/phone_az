@@ -15,6 +15,8 @@ jobs:
     environment: production
     env:
       TF_DIR: terraform
+      TF_CLOUD_ORGANIZATION: ${{ secrets.TF_CLOUD_ORGANIZATION }}
+      TF_CLOUD_WORKSPACE: ${{ secrets.TF_CLOUD_WORKSPACE }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -35,13 +37,13 @@ jobs:
       - name: Setup Terraform Backend
         id: backend
         run: |
-          cat > ${TF_DIR}/backend.tf << EOF
+          cat > "${TF_DIR}/backend.tf" << EOF
           terraform {
             backend "remote" {
-               organization = "${secrets.TF_CLOUD_ORGANIZATION}"
+               organization = "${TF_CLOUD_ORGANIZATION}"
               
                workspaces {
-                 name = "${secrets.TF_CLOUD_WORKSPACE}"
+                 name = "${TF_CLOUD_WORKSPACE}"
                }
             }
           }
