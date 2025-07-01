@@ -1,18 +1,12 @@
-name: 'Terraform'
+name: 'Terraform Destroy'
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-
-permissions:
-  contents: read
+  workflow_dispatch:
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: 'Terraform Destroy'
     runs-on: ubuntu-latest
-    environment: production
     env:
       TF_DIR: terraform
       TF_CLOUD_ORGANIZATION: ${{ secrets.TF_CLOUD_ORGANIZATION }}
@@ -52,4 +46,4 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform -chdir=$TF_DIR init -reconfigure
-          terraform -chdir=$TF_DIR apply -auto-approve
+          terraform -chdir=$TF_DIR destroy -auto-approve
