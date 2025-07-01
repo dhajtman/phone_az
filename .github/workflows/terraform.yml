@@ -57,6 +57,12 @@ jobs:
         run: |
           terraform -chdir=$TF_DIR init -reconfigure 
 
+      - name: Write .tfvars
+        run: |
+          echo 'openai_api_key = "${OPENAI_API_KEY}"' > "${TF_DIR}/openai.auto.tfvars"
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
       - name: Terraform Apply
         run: |
-          terraform -chdir=$TF_DIR apply -auto-approve -var="openai_api_key=$OPENAI_API_KEY"
+          terraform -chdir=$TF_DIR apply -auto-approve -var-file=openai.auto.tfvars
