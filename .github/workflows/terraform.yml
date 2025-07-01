@@ -17,10 +17,6 @@ jobs:
       TF_DIR: terraform
       TF_CLOUD_ORGANIZATION: ${{ secrets.TF_CLOUD_ORGANIZATION }}
       TF_CLOUD_WORKSPACE: ${{ secrets.TF_CLOUD_WORKSPACE }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      AWS_DEFAULT_REGION: us-east-1
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -53,34 +49,7 @@ jobs:
           }
           EOF
 
-      - name: Show backend.tf content
-        run: cat "${TF_DIR}"/backend.tf
-
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      - name: Terraform Init
-        run: |
-          terraform -chdir=$TF_DIR init -reconfigure 
-
-      - name: Write .tfvars
-        run: |
-          echo "openai_api_key = \"${OPENAI_API_KEY}\"" > "${TF_DIR}/openai.auto.tfvars"
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-      - name: Show .tfvars content
-        run: cat "${TF_DIR}/openai.auto.tfvars"
-
-      - name: Test AWS Credentials
-        run: aws sts get-caller-identity
-
-      - name: Terraform Plan
-        run: terraform -chdir=$TF_DIR plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_DEFAULT_REGION: us-east-1
-
       - name: Terraform Apply
         run: |
+          terraform -chdir=$TF_DIR init -reconfigure
           terraform -chdir=$TF_DIR apply -auto-approve
