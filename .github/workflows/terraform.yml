@@ -59,9 +59,12 @@ jobs:
 
       - name: Write .tfvars
         run: |
-          echo 'openai_api_key = "${OPENAI_API_KEY}"' > "${TF_DIR}/openai.auto.tfvars"
+          echo "openai_api_key = \"${OPENAI_API_KEY}\"" > "${TF_DIR}/openai.auto.tfvars"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Show .tfvars content
+        run: cat "${TF_DIR}/openai.auto.tfvars"
 
       - name: Terraform Apply
         run: |
