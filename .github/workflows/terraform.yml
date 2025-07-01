@@ -17,6 +17,9 @@ jobs:
       TF_DIR: terraform
       TF_CLOUD_ORGANIZATION: ${{ secrets.TF_CLOUD_ORGANIZATION }}
       TF_CLOUD_WORKSPACE: ${{ secrets.TF_CLOUD_WORKSPACE }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -65,6 +68,9 @@ jobs:
 
       - name: Show .tfvars content
         run: cat "${TF_DIR}/openai.auto.tfvars"
+
+      - name: Test AWS Credentials
+        run: aws sts get-caller-identity
 
       - name: Terraform Apply
         run: |
