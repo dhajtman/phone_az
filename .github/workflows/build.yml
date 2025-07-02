@@ -25,6 +25,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Maven Package
+        run: mvn clean package
+
       # Build and tag the Docker image
       - name: Build Docker Image
         run: |
