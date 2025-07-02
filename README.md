@@ -17,11 +17,11 @@ Create a Java application that returns a sorted list of phones using a REST inte
    ```
 2. **Build the Docker image:**
    ```bash
-   docker build -t telekom-app-api .
+   docker build -t phone-app .
    ```
 3. **Run the Docker container:**
    ```bash
-   docker run --name telekom-app-api -p 8080:8080 -t telekom-spring-boot-docker
+   docker run --name phone-app-api -p 8080:8080 -t phone-app
    ```
 
 ### Deploying app to k8s
