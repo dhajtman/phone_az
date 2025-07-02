@@ -127,6 +127,11 @@ Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
    aws iam create-access-key --user-name $IAM_USER_NAME
    ```
 2. **Set Github variables based on your Terraform Cloud values:**
+   - `AWS_ACCOUNT_ID`: your AWS account ID
+   - `AWS_ACCESS_KEY_ID`: your AWS access key ID
+   - `AWS_SECRET_ACCESS_KEY`: your AWS secret access key
+   - `AWS_REGION`: your AWS region (e.g., `us-east-1`)
+   - `ECR_REPOSITORY`: your ECR repository name
    - `TF_API_TOKEN`: your Terraform Cloud API token
    - `TF_CLOUD_ORGANIZATION`: your Terraform Cloud organization name
    - `TF_CLOUD_WORKSPACE`: your Terraform Cloud workspace name
