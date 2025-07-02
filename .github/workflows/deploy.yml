@@ -44,4 +44,4 @@ jobs:
             --query "NetworkInterfaces[0].Association.PublicIp" \
             --output text
           )
-          echo "App URL: http://$PUBLIC_IP:8000/phones"
+          echo "App URL: http://$PUBLIC_IP:8080/phone/all"
