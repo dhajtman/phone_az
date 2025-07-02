@@ -27,3 +27,21 @@ jobs:
       - name: Force ECS Deployment
         run: |
           aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER }} --service ${{ secrets.ECS_SERVICE }} --force-new-deployment
+
+      - name: Print ECS Public IP
+        run: |
+          echo "Fetching public IP of the ECS task..."
+          PUBLIC_IP=$(aws ec2 describe-network-interfaces \
+            --network-interface-ids $(
+              aws ecs describe-tasks \
+                --cluster $ECS_CLUSTER \
+                --tasks $(
+                  aws ecs list-tasks --cluster $ECS_CLUSTER --query 'taskArns[0]' --output text
+                ) \
+                --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" \
+                --output text
+            ) \
+            --query "NetworkInterfaces[0].Association.PublicIp" \
+            --output text
+          )
+          echo "App URL: http://$PUBLIC_IP:8000/phones"
