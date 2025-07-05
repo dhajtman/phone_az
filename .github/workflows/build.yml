@@ -33,10 +33,11 @@ jobs:
       # Build and tag the Docker image
       - name: Build Docker Image
         run: |
-          docker build --platform linux/amd64 -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$CONTAINER_TAG .
-          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest .
+          docker build --platform linux/amd64 -t $ACR_LOGIN_SERVER/phonespringregistry:latest .
+#          docker build -t ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest .
 
       # Push the Docker image to ECR
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+#          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+          docker push $ACR_LOGIN_SERVER/phonespringregistry:latest

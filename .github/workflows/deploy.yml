@@ -15,33 +15,24 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Configure AWS credentials
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
+      # Log in to Azure
+      - name: Log in to Azure
+        uses: azure/login@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          creds: |
+            {
+              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "tenantId": "${{ secrets.AZURE_TENANT_ID }}",
+              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+            }
 
       # Update ECS service to force a new deployment
       - name: Force ECS Deployment
         run: |
-          aws ecs update-service --cluster ${{ secrets.ECS_CLUSTER }} --service ${{ secrets.ECS_SERVICE }} --force-new-deployment
-
-      - name: Print ECS Public IP
-        run: |
-          echo "Fetching public IP of the ECS task..."
-          PUBLIC_IP=$(aws ec2 describe-network-interfaces \
-            --network-interface-ids $(
-              aws ecs describe-tasks \
-                --cluster ${{ secrets.ECS_CLUSTER }} \
-                --tasks $(
-                  aws ecs list-tasks --cluster ${{ secrets.ECS_CLUSTER }} --query 'taskArns[0]' --output text
-                ) \
-                --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" \
-                --output text
-            ) \
-            --query "NetworkInterfaces[0].Association.PublicIp" \
-            --output text
-          )
-          echo "App URL: http://$PUBLIC_IP:8080/phone/all"
+          terraform -chdir=$TF_DIR init -reconfigure
+          terraform -chdir=$TF_DIR apply -auto-approve \
+            -var-file=terraform_az.tfvars \
+            -var="openai_api_key=$OPENAI_API_KEY" \
+            -var="enable_app=true"
+          terraform -chdir=$TF_DIR output
