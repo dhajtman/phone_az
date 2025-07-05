@@ -65,6 +65,11 @@ jobs:
           }
           EOF
 
+      - name: Check ARM_ env vars
+        run: |
+          env | grep ARM_
+          echo "Terraform version: $(terraform version)"
+
       - name: Terraform Apply
         run: |
           terraform -chdir=$TF_DIR init -reconfigure
