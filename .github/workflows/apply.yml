@@ -52,5 +52,5 @@ jobs:
       - name: Terraform Apply
         run: |
           terraform -chdir=$TF_DIR init -reconfigure
-          terraform -chdir=$TF_DIR apply -auto-approve -var="enable_app=true"
+          terraform -chdir=$TF_DIR apply -auto-approve
           terraform -chdir=$TF_DIR output
