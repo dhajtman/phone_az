@@ -17,10 +17,6 @@ jobs:
       TF_DIR: terraform
       TF_CLOUD_ORGANIZATION: ${{ secrets.TF_CLOUD_ORGANIZATION }}
       TF_CLOUD_WORKSPACE: ${{ secrets.TF_CLOUD_WORKSPACE }}
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -52,11 +48,6 @@ jobs:
             }
           }
           EOF
-
-      - name: Check ARM_ env vars
-        run: |
-          env | grep ARM_
-          echo "Terraform version: $(terraform version)"
 
       - name: Terraform Apply
         run: |
