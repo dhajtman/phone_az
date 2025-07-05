@@ -131,4 +131,8 @@ Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
    - `AZURE_CLIENT_SECRET`: your Azure Client Secret from the service principal
    - `AZURE_TENANT_ID`: your Azure Tenant ID from the service principal
    - `AZURE_SUBSCRIPTION_ID`: your Azure Subscription ID
+   - `ARM_CLIENT_ID`: your Azure Client ID from the service principal
+   - `ARM_CLIENT_SECRET`: your Azure Client Secret from the service principal
+   - `ARM_TENANT_ID`: your Azure Tenant ID from the service principal
+   - `ARM_SUBSCRIPTION_ID`: your Azure Subscription ID
    - `OPENAI_API_KEY`: your OpenAI API key
