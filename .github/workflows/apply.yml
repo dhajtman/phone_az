@@ -53,3 +53,4 @@ jobs:
         run: |
           terraform -chdir=$TF_DIR init -reconfigure
           terraform -chdir=$TF_DIR apply -auto-approve
+          terraform -chdir=$TF_DIR output

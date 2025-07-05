@@ -1,149 +1,97 @@
 
 terraform {
-  required_version = ">= 1.0"
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.81.0"
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+  }
+
+  backend "http" {}
+}
+
+provider "azurerm" {
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
     }
   }
 }
 
-provider "aws" {
-  region = var.aws_region
+resource "azurerm_resource_group" "main" {
+  name     = var.resource_group_name
+  location = var.location
 }
 
-resource "aws_ecr_repository" "app_repo" {
-  name = var.ecr_repository
-  force_delete = true
+resource "azurerm_container_registry" "acr" {
+  name                = var.acr_name
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  sku                 = "Basic"
+  admin_enabled       = true
 }
 
-resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+resource "azurerm_container_app_environment" "env" {
+  name                = "phones-env"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
 }
 
-resource "aws_subnet" "public_subnet_a" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1a"
-  map_public_ip_on_launch = true
+resource "azurerm_user_assigned_identity" "uai" {
+  name                = "phonesapp-identity"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
+resource "azurerm_role_assignment" "acr_pull" {
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.uai.principal_id
 }
 
-resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.main.id
+resource "azurerm_container_app" "app" {
+  count = var.enable_app ? 1 : 0
 
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-}
+  name                         = var.app_name
+  container_app_environment_id = azurerm_container_app_environment.env.id
+  resource_group_name          = azurerm_resource_group.main.name
+  revision_mode                = "Single"
 
-resource "aws_route_table_association" "public_assoc_a" {
-  subnet_id      = aws_subnet.public_subnet_a.id
-  route_table_id = aws_route_table.public_rt.id
-}
+  template {
+    container {
+      name   = var.image_name
+      image  = "${azurerm_container_registry.acr.login_server}/${var.image_name}:${var.container_image_tag}"
+      cpu    = 0.5
+      memory = "1.0Gi"
 
-resource "aws_ecs_cluster" "main" {
-  name = var.ecs_cluster
-}
-
-resource "aws_iam_role" "ecs_task_execution" {
-  name = "ecsTaskExecutionRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "ecs-tasks.amazonaws.com"
-      }
-    }]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
-  role       = aws_iam_role.ecs_task_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
-resource "aws_cloudwatch_log_group" "ecs_log_group" {
-  name              = "/ecs/app"
-  retention_in_days = 1
-}
-
-resource "aws_ecs_task_definition" "app" {
-  family                   = "my-task"
-  requires_compatibilities = ["FARGATE"]
-  network_mode             = "awsvpc"
-  cpu                      = "256"
-  memory                   = "512"
-  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
-
-  container_definitions = jsonencode([
-    {
-      name      = "app"
-      image     = "${aws_ecr_repository.app_repo.repository_url}:latest"
-      essential = true
-      portMappings = [
-        {
-          containerPort = 8000
-          hostPort      = 8000
-          protocol      = "tcp"
-        }
-      ],
-      environment = [
-        {
-          name  = "OPENAI_API_KEY"
-          value = var.openai_api_key
-        }
-      ],
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          awslogs-group         = aws_cloudwatch_log_group.ecs_log_group.name
-          awslogs-region        = var.aws_region
-          awslogs-stream-prefix = "ecs"
-        }
+      env {
+        name  = "OPENAI_API_KEY"
+        value = var.openai_api_key
       }
     }
-  ])
-}
-
-resource "aws_ecs_service" "app_service" {
-  name            = var.ecs_service
-  cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.app.arn
-  launch_type     = "FARGATE"
-  desired_count   = 1
-
-  network_configuration {
-    subnets         = [aws_subnet.public_subnet_a.id]
-    assign_public_ip = true
-    security_groups  = [aws_security_group.ecs_sg.id]
   }
-}
-
-resource "aws_security_group" "ecs_sg" {
-  name        = "ecs-service-sg"
-  description = "Allow HTTP inbound traffic"
-  vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    external_enabled = true
+    target_port      = var.app_port
+    traffic_weight {
+      percentage      = 100
+      latest_revision = true
+    }
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.uai.id]
   }
+
+  registry {
+    server = azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.uai.id
+  }
+}
+
+output "container_app_url" {
+  value = var.enable_app ? "https://${azurerm_container_app.app[0].ingress[0].fqdn}/phone/all" : null
+  description = "URL of the deployed Azure Container App"
 }

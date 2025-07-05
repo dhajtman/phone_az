@@ -1,29 +1,42 @@
-variable "aws_region" {
-  description = "The AWS region"
-  type        = string
-  default     = "us-east-1"
+variable "resource_group_name" {
+  default = "phone-spring-az-rg"
 }
 
-variable "ecr_repository" {
-  description = "The AWS repository"
-  type        = string
-  default     = "docker-repo"
+variable "location" {
+  default = "westeurope"
 }
 
-variable "ecs_cluster" {
-  description = "The name of the ECS cluster"
-  type        = string
-  default     = "ecs-cluster"
+variable "acr_name" {
+  default = "phonespringregistry"
 }
 
-variable "ecs_service" {
-  description = "The name of the ECS service"
-  type        = string
-  default     = "ecs-service"
+variable "app_name" {
+  default = "phonespringapp"
+}
+
+variable "container_image_tag" {
+  default = "latest"
 }
 
 variable "openai_api_key" {
   description = "OpenAI API key"
   type        = string
   sensitive   = true
+}
+
+variable "enable_app" {
+  type    = bool
+  default = true
+}
+
+variable "app_port" {
+  description = "Port on which the app will run"
+  type        = number
+  default     = 8080
+}
+
+variable "image_name" {
+  description = "Name of the container image"
+  type        = string
+  default     = "phone-spring"
 }

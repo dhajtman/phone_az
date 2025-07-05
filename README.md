@@ -99,46 +99,36 @@ spring.application.name=phone
 ### Application Access
 Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
 
-### Setting up AWS
-1. **Create Service Account and key:**
+### Setting up Azure
+1. **Create Service Principal:**
    ```bash
-   IAM_USER_NAME="cicd_sa"
-   aws iam create-user --user-name $IAM_USER_NAME
-   aws iam put-user-policy \
-     --user-name cicd_sa \
-     --policy-name FullTerraformCICDPolicy \
-     --policy-document '{
-       "Version": "2012-10-17",
-       "Statement": [
-         {
-           "Effect": "Allow",
-           "Action": [
-             "ec2:*",
-             "elasticloadbalancing:*",
-             "ecr:*",
-             "ecs:*",
-             "iam:*",
-             "logs:*"
-           ],
-           "Resource": "*"
-         }
-       ]
-     }'
-   aws iam create-access-key --user-name $IAM_USER_NAME
+   az login
+   az account list --output table
+   az account set --subscription "<your-subscription-name-or-id>"
+   az ad sp create-for-rbac \
+     --name "cicd-sp" \
+     --role Contributor \
+     --scopes /subscriptions/<subscription-id> \
+     --sdk-auth
+   az role assignment create \
+     --assignee <clientId-from-previous-command> \
+     --role "User Access Administrator" \
+     --scope /subscriptions/<subscription-id>
+   az provider register --namespace Microsoft.App
    ```
+   
 2. **Set Github variables based on your Terraform Cloud values:**
-   - `AWS_ACCOUNT_ID`: your AWS account ID
-   - `AWS_ACCESS_KEY_ID`: your AWS access key ID
-   - `AWS_SECRET_ACCESS_KEY`: your AWS secret access key
-   - `AWS_REGION`: your AWS region (e.g., `us-east-1`)
-   - `ECR_REPOSITORY`: your ECR repository name
+   - `AZURE_CLIENT_ID`: your Azure Client ID from the service principal
+   - `AZURE_CLIENT_SECRET`: your Azure Client Secret from the service principal
+   - `AZURE_TENANT_ID`: your Azure Tenant ID from the service principal
+   - `AZURE_SUBSCRIPTION_ID`: your Azure Subscription ID
    - `TF_API_TOKEN`: your Terraform Cloud API token
    - `TF_CLOUD_ORGANIZATION`: your Terraform Cloud organization name
    - `TF_CLOUD_WORKSPACE`: your Terraform Cloud workspace name
 
 3. **Terraform Cloud variables:**
-   - `AWS_ACCOUNT_ID`: your AWS account ID
-   - `AWS_ACCESS_KEY_ID`: your AWS access key ID
-   - `AWS_SECRET_ACCESS_KEY`: your AWS secret access key
-   - `AWS_REGION`: your AWS region (e.g., `us-east-1`)
+   - `AZURE_CLIENT_ID`: your Azure Client ID from the service principal
+   - `AZURE_CLIENT_SECRET`: your Azure Client Secret from the service principal
+   - `AZURE_TENANT_ID`: your Azure Tenant ID from the service principal
+   - `AZURE_SUBSCRIPTION_ID`: your Azure Subscription ID
    - `OPENAI_API_KEY`: your OpenAI API key
