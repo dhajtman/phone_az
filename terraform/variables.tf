@@ -26,7 +26,7 @@ variable "openai_api_key" {
 
 variable "enable_app" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "app_port" {
