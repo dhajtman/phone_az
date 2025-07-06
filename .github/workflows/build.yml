@@ -10,7 +10,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      ACR_LOGIN_SERVER: phoneregistry1.azurecr.io
+      ACR_NAME: phoneregistry1
       IMAGE_NAME: phone-app
       CONTAINER_TAG: latest
     steps:
@@ -36,9 +36,13 @@ jobs:
       # Build and tag the Docker image
       - name: Build Docker Image
         run: |
-          docker build --platform linux/amd64 -t $ACR_LOGIN_SERVER/$IMAGE_NAME:$CONTAINER_TAG .
+          docker build --platform linux/amd64 -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$CONTAINER_TAG .
+
+      - name: Docker login to ACR
+        run: |
+          az acr login --name ${ACR_NAME}
 
       # Push the Docker image to ECR
       - name: Push Docker Image
         run: |
-          docker push $ACR_LOGIN_SERVER/$IMAGE_NAME:$CONTAINER_TAG
+          docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$CONTAINER_TAG
