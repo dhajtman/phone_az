@@ -10,7 +10,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      ACR_LOGIN_SERVER: phoneregistry.azurecr.io
+      ACR_LOGIN_SERVER: phoneregistry1.azurecr.io
       IMAGE_NAME: phone-app
       CONTAINER_TAG: latest
     steps:
