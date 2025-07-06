@@ -49,6 +49,13 @@ jobs:
           }
           EOF
 
+      - name: Set custom TF vars
+        run: |
+          cat > "${TF_DIR}"/custom.auto.tfvars << EOF
+          enable_app = false
+          openai_api_key = ""
+          EOF
+
       - name: Terraform Apply
         run: |
           terraform -chdir=$TF_DIR init -reconfigure

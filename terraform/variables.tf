@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "phone-spring-az-rg"
+  default = "phone-az-rg"
 }
 
 variable "location" {
@@ -7,11 +7,11 @@ variable "location" {
 }
 
 variable "acr_name" {
-  default = "phonespringregistry"
+  default = "phoneregistry"
 }
 
 variable "app_name" {
-  default = "phonespringapp"
+  default = "phoneapp"
 }
 
 variable "container_image_tag" {
@@ -38,5 +38,5 @@ variable "app_port" {
 variable "image_name" {
   description = "Name of the container image"
   type        = string
-  default     = "phone-spring"
+  default     = "phone-app"
 }

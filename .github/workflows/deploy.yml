@@ -9,30 +9,22 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    env:
+      TF_DIR: terraform
     steps:
       # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Log in to Azure
-      - name: Log in to Azure
-        uses: azure/login@v1
-        with:
-          creds: |
-            {
-              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
-              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
-              "tenantId": "${{ secrets.AZURE_TENANT_ID }}",
-              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-            }
+      - name: Set custom TF vars
+        run: |
+          cat > "${TF_DIR}"/custom.auto.tfvars << EOF
+          enable_app = true
+          openai_api_key = ""
+          EOF
 
-      # Update ECS service to force a new deployment
-      - name: Force ECS Deployment
+      - name: ACR Deployment
         run: |
           terraform -chdir=$TF_DIR init -reconfigure
-          terraform -chdir=$TF_DIR apply -auto-approve \
-            -var-file=terraform_az.tfvars \
-            -var="openai_api_key=$OPENAI_API_KEY" \
-            -var="enable_app=true"
+          terraform -chdir=$TF_DIR apply -auto-approve
           terraform -chdir=$TF_DIR output
