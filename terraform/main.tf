@@ -30,13 +30,13 @@ resource "azurerm_container_registry" "acr" {
 }
 
 resource "azurerm_container_app_environment" "env" {
-  name                = "phones-env"
+  name                = "phone-env"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 }
 
 resource "azurerm_user_assigned_identity" "uai" {
-  name                = "phonesapp-identity"
+  name                = "phoneapp-identity"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
 }
