@@ -136,3 +136,10 @@ Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
    - `ARM_TENANT_ID`: your Azure Tenant ID from the service principal
    - `ARM_SUBSCRIPTION_ID`: your Azure Subscription ID
    - `OPENAI_API_KEY`: your OpenAI API key
+
+### Accessing Azure Deployed Application
+Look at deploy Github action ACR deployment action output
+```
+Outputs:
+container_app_url = "https://phoneapp.bravestone-704482eb.westeurope.azurecontainerapps.io/swagger-ui/index.html"
+```

@@ -90,6 +90,6 @@ resource "azurerm_container_app" "app" {
 }
 
 output "container_app_url" {
-  value = var.enable_app ? "https://${azurerm_container_app.app[0].ingress[0].fqdn}/phone/all" : null
-  description = "URL of the deployed Azure Container App"
+  value = var.enable_app ? "https://${azurerm_container_app.app[0].ingress[0].fqdn}/swagger-ui/index.html" : null
+  description = "Swagger UI URL of the deployed Azure Container App"
 }
