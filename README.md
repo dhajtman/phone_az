@@ -138,7 +138,7 @@ Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
    - `OPENAI_API_KEY`: your OpenAI API key
 
 ### Accessing Azure Deployed Application
-Look at deploy Github action ACR deployment action output
+Look at deploy Output Github action job report
 ```
 Outputs:
 container_app_url = "https://phoneapp.bravestone-704482eb.westeurope.azurecontainerapps.io/swagger-ui/index.html"

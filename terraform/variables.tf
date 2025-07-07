@@ -7,7 +7,7 @@ variable "location" {
 }
 
 variable "acr_name" {
-  default = "phoneregistry1"
+  default = "phoneregistry"
 }
 
 variable "app_name" {
