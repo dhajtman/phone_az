@@ -1,0 +1,27 @@
+{
+  "realm" : "spring-app",
+  "users" : [ {
+    "id" : "c124f072-603b-43e0-8ce9-7e80abe902ad",
+    "username" : "testuser",
+    "firstName" : "testuser",
+    "lastName" : "testuser",
+    "email" : "testuser@gmail.com",
+    "emailVerified" : true,
+    "createdTimestamp" : 1751879102221,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "e30db23f-322f-45f3-accc-46d411221588",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1751879125914,
+      "secretData" : "{\"value\":\"Aabf69FYc+ZTeGjQxhG3MgsyYvx98wzxEZjFP+BweiCBqK5cSJGnbggDMXhf9yJaGDQgpll+yT9F/xqmMFOTsw==\",\"salt\":\"asn3Tw8NDh+zi3srGj3oMQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-spring-app" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

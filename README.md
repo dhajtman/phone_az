@@ -143,3 +143,26 @@ Look at deploy Output Github action job report
 Outputs:
 container_app_url = "https://phoneapp.bravestone-704482eb.westeurope.azurecontainerapps.io/swagger-ui/index.html"
 ```
+
+## Start Docker services locally
+```bash
+./compose-keycloak/start.sh
+```
+### Accessing Keycloak
+Open your browser and navigate to: http://localhost:9090
+
+### Obtaining access token from Keycloak
+```bash
+curl -X POST http://localhost:9090/realms/spring-app/protocol/openid-connect/token \
+  -d "client_id=spring-client" \
+  -d "username=testuser" \
+  -d "password=password" \
+  -d "grant_type=password" \
+  -d "client_secret=5esbIFnW4taZvNXeoVRJFafhzthweA7t"
+```
+
+### Testing secured endpoint
+```bash
+curl -X GET http://localhost:8090/api/hello \                                       
+  -H "Authorization: Bearer <access_token>"
+```
