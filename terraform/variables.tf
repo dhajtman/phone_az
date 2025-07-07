@@ -32,7 +32,7 @@ variable "enable_app" {
 variable "app_port" {
   description = "Port on which the app will run"
   type        = number
-  default     = 8080
+  default     = 8090
 }
 
 variable "image_name" {
