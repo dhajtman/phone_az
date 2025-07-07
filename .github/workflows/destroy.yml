@@ -11,6 +11,7 @@ jobs:
       TF_DIR: terraform
       TF_CLOUD_ORGANIZATION: ${{ secrets.TF_CLOUD_ORGANIZATION }}
       TF_CLOUD_WORKSPACE: ${{ secrets.TF_CLOUD_WORKSPACE }}
+      TF_CLOUD_SKIP_REMOTE_EXECUTION: true
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:

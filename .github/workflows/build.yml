@@ -10,7 +10,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      ACR_NAME: phoneregistry
+      ACR_NAME: phoneregistry1
       IMAGE_NAME: phone-app
       CONTAINER_TAG: latest
     steps:
