@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -24,6 +25,7 @@ public class PhoneExceptionControllerTest {
     private PhoneService phoneService;
 
     @Test
+    @WithMockUser
     public void testHandlePhoneNotFoundException() throws Exception {
         when(phoneService.getPhoneById(1L)).thenThrow(new PhoneNotFoundException("Phone not found with id: 1"));
 
@@ -34,6 +36,7 @@ public class PhoneExceptionControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void testHandleRuntimeException() throws Exception {
         when(phoneService.getPhoneById(1L)).thenThrow(new RuntimeException("Unexpected error"));
 
