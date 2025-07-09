@@ -1,5 +1,6 @@
 package com.phone.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,14 @@ public class AppExceptionHandler {
                 errors.put(error.getField(), error.getDefaultMessage()));
         log.error("Validation errors: {}", errors);
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Map<String, String>> handleValidationException(ConstraintViolationException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Constraint violation");
+        response.put("message", ex.getMessage());
+        log.error("Validation exception: {}", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

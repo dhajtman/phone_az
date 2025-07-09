@@ -5,14 +5,17 @@ import com.phone.service.PhoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/phone")
+@Validated
 @Tag(name = "Phone", description = "This API provides the capability to Phone from a Phone Repository")
 public class PhoneController {
     private final PhoneService phoneService;
@@ -37,7 +40,7 @@ public class PhoneController {
 
     @Operation(summary = "Get Phone with {id}", description = "Get Phone with {id}.")
     @GetMapping("/{id}")
-    public ResponseEntity<Phone> getPhoneById(@PathVariable("id") Long id) {
+    public ResponseEntity<Phone> getPhoneById(@PathVariable("id") @Min(1) Long id) {
         Phone phone = phoneService.getPhoneById(id);
         return new ResponseEntity<>(phone, HttpStatus.OK);
     }
