@@ -24,3 +24,8 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:9090/realms/spring-app
+
+my:
+  service:
+    url: https://api.example.com
+    timeout: 5000

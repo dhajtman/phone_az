@@ -1,5 +1,6 @@
 package com.phone.controller;
 
+import com.phone.bean.MyServiceConfig;
 import com.phone.bean.PrototypeBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class TestController {
     private PrototypeBean prototypeBean;
 
     @Autowired
+    private MyServiceConfig myServiceConfig;
+
+    @Autowired
     private ApplicationContext applicationContext;
 
     @GetMapping("/test/prototype")
@@ -28,5 +32,12 @@ public class TestController {
         PrototypeBean prototypeBean2 = applicationContext.getBean(PrototypeBean.class);
         log.info("Accessing prototype bean way2: {}", prototypeBean2);
         return prototypeBean2.getMessage();
+    }
+
+    @GetMapping("/test/config")
+    public String testConfig() {
+        log.info("myServiceConfig.getUrl(): {}", myServiceConfig.getUrl());
+        log.info("myServiceConfig.getTimeout(): {}", myServiceConfig.getTimeout());
+        return "Configuration bean accessed successfully!";
     }
 }
