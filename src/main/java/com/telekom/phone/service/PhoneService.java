@@ -1,7 +1,6 @@
 package com.telekom.phone.service;
 
 import com.telekom.phone.model.Phone;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
