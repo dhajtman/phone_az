@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: phone-app
-          image: telekom-app-api:1.0.0
+          image: phone-app-api:1.0.0
           ports:
             - containerPort: 8080
 ---

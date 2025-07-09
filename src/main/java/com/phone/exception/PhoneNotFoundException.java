@@ -1,4 +1,4 @@
-package com.telekom.phone.exception;
+package com.phone.exception;
 
 public class PhoneNotFoundException extends RuntimeException {
     public PhoneNotFoundException() {

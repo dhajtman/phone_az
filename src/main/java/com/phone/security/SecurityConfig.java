@@ -1,4 +1,4 @@
-package com.telekom.phone.security;
+package com.phone.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.telekom.phone.model;
+package com.phone.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
-package com.telekom.phone.exception;
+package com.phone.exception;
 
-import com.telekom.phone.controller.PhoneController;
-import com.telekom.phone.service.PhoneService;
+import com.phone.controller.PhoneController;
+import com.phone.service.PhoneService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

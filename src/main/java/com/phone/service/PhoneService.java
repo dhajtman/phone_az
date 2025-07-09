@@ -1,6 +1,6 @@
-package com.telekom.phone.service;
+package com.phone.service;
 
-import com.telekom.phone.model.Phone;
+import com.phone.model.Phone;
 
 import java.util.List;
 

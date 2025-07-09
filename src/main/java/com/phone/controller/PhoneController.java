@@ -1,7 +1,7 @@
-package com.telekom.phone.controller;
+package com.phone.controller;
 
-import com.telekom.phone.model.Phone;
-import com.telekom.phone.service.PhoneService;
+import com.phone.model.Phone;
+import com.phone.service.PhoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

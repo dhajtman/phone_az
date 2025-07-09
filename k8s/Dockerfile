@@ -6,10 +6,10 @@ FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 
 # Copy the packaged jar file into the container
-COPY target/*.jar /app/telekom-spring-boot-docker.jar
+COPY target/*.jar /app/phone-spring-boot-docker.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
 
 # Run the jar file
-ENTRYPOINT ["java", "-jar", "/app/telekom-spring-boot-docker.jar"]
+ENTRYPOINT ["java", "-jar", "/app/ohone-spring-boot-docker.jar"]

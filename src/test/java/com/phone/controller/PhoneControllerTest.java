@@ -1,8 +1,8 @@
-package com.telekom.phone.controller;
+package com.phone.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telekom.phone.model.Phone;
-import com.telekom.phone.service.PhoneService;
+import com.phone.model.Phone;
+import com.phone.service.PhoneService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

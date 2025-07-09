@@ -1,8 +1,8 @@
-package com.telekom.phone.service;
+package com.phone.service;
 
-import com.telekom.phone.exception.PhoneNotFoundException;
-import com.telekom.phone.model.Phone;
-import com.telekom.phone.repository.PhoneRepository;
+import com.phone.exception.PhoneNotFoundException;
+import com.phone.model.Phone;
+import com.phone.repository.PhoneRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
