@@ -1,4 +1,4 @@
-# Simple Spring Boot Application running on KinD
+# Spring Boot Application running on KinD or Azure Container Apps
 
 ## Project Requirements
 
@@ -24,7 +24,7 @@ Create a Java application that returns a sorted list of phones using a REST inte
    docker run --name phone-app-api -p 8080:8080 -t phone-app
    ```
 
-### Deploying app to k8s
+### Deploying app to KinD k8s
 1. **Create KinD cluster:**
    ```bash
    kind create cluster --config k8s/kind-cluster.yml
@@ -98,6 +98,8 @@ spring.application.name=phone
 
 ### Application Access
 Access application Swagger UI at: http://localhost:8080/swagger-ui/index.html
+
+## Deploying to Azure Container Apps with Terraform using Github Actions
 
 ### Setting up Azure
 1. **Create Service Principal:**
