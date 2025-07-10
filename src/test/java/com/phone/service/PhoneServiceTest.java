@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class PhoneEntityServiceTest {
+public class PhoneServiceTest {
     @Mock
     private PhoneRepository phoneRepository;
 
@@ -33,6 +33,12 @@ public class PhoneEntityServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         phoneService = new PhoneServiceImpl(phoneRepository, phoneMapper);
+    }
+
+    @Test
+    public void testAddition() {
+        int i = 1, j = 4;
+        assertEquals(5, i + j);
     }
 
     @Test
@@ -54,7 +60,7 @@ public class PhoneEntityServiceTest {
                 new Phone(8L, "Sony Xperia")
         );
         when(phoneRepository.findAll()).thenReturn(primarySourcePhoneEntities);
-        
+
         phoneService.updateFromPrimarySource();
         List<PhoneDTO> phoneDTOS = phoneService.getAllPhones();
 
