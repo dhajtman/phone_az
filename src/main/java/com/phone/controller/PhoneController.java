@@ -3,6 +3,7 @@ package com.phone.controller;
 import com.phone.dto.PhoneDTO;
 import com.phone.service.PhoneService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -39,6 +40,8 @@ public class PhoneController {
     }
 
     @Operation(summary = "Get Phone with {id}", description = "Get Phone with {id}.")
+    @ApiResponse(responseCode = "200", description = "Found the phone")
+    @ApiResponse(responseCode = "404", description = "Phone not found")
     @GetMapping("/{id}")
     public ResponseEntity<PhoneDTO> getPhoneById(@PathVariable("id") @Min(1) Long id) {
         PhoneDTO phoneDTO = phoneService.getPhoneById(id);
