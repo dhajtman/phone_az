@@ -25,7 +25,7 @@ spring:
         jwt:
           issuer-uri: http://localhost:9090/realms/spring-app
 
-my:
+custom:
   service:
     url: https://api.example.com
     timeout: 5000

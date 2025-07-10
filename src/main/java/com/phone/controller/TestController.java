@@ -1,6 +1,6 @@
 package com.phone.controller;
 
-import com.phone.bean.MyServiceConfig;
+import com.phone.bean.CustomServiceConfig;
 import com.phone.bean.PrototypeBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class TestController {
     private PrototypeBean prototypeBean;
 
     @Autowired
-    private MyServiceConfig myServiceConfig;
+    private CustomServiceConfig customServiceConfig;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -36,8 +36,8 @@ public class TestController {
 
     @GetMapping("/test/config")
     public String testConfig() {
-        log.info("myServiceConfig.getUrl(): {}", myServiceConfig.getUrl());
-        log.info("myServiceConfig.getTimeout(): {}", myServiceConfig.getTimeout());
+        log.info("customServiceConfig.getUrl(): {}", customServiceConfig.getUrl());
+        log.info("customServiceConfig.getTimeout(): {}", customServiceConfig.getTimeout());
         return "Configuration bean accessed successfully!";
     }
 }

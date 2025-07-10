@@ -1,28 +1,28 @@
 package com.phone.service;
 
-import com.phone.model.Phone;
+import com.phone.dto.PhoneDTO;
 
 import java.util.List;
 
 public interface PhoneService {
 
-    List<Phone> getAllPhones();
+    List<PhoneDTO> getAllPhones();
 
-    void updatePhones(List<Phone> newPhones);
+    void updatePhones(List<PhoneDTO> newPhones);
 
     void updateFromPrimarySource();
 
-    Phone getPhoneByIdFromPrimarySource(Long id);
+    PhoneDTO getPhoneByIdFromPrimarySource(Long id);
 
-    Phone getPhoneById(Long id);
+    PhoneDTO getPhoneById(Long id);
 
-    Phone createPhone(Phone phone);
+    PhoneDTO createPhone(PhoneDTO phone);
 
     void deletePhone(Long id);
 
-    Phone updatePhone(Phone phone);
+    PhoneDTO updatePhone(PhoneDTO phone);
 
-    List<Phone> filterByName(String name);
+    List<PhoneDTO> filterByName(String name);
 
-    List<Phone> nameContains(String value);
+    List<PhoneDTO> nameContains(String value);
 }

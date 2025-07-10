@@ -1,6 +1,7 @@
 package com.phone.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.phone.dto.PhoneDTO;
 import com.phone.model.Phone;
 import com.phone.service.PhoneService;
 import org.junit.jupiter.api.Assertions;
@@ -38,10 +39,10 @@ public class PhoneControllerTest {
     @BeforeEach
     public void setUp() {
         phoneService.updatePhones(List.of(
-                new Phone(1L, "iPhone"),
-                new Phone(2L, "Samsung Galaxy"),
-                new Phone(3L, "Google Pixel"),
-                new Phone(4L, "Google Pixel")
+                new PhoneDTO(1L, "iPhone"),
+                new PhoneDTO(2L, "Samsung Galaxy"),
+                new PhoneDTO(3L, "Google Pixel"),
+                new PhoneDTO(4L, "Google Pixel")
         ));
     }
 
@@ -69,24 +70,24 @@ public class PhoneControllerTest {
     @Test
     @DirtiesContext
     public void testCreatePhone() throws Exception {
-        Phone newPhone = new Phone("OnePlusTest");
+        PhoneDTO phoneDTO = PhoneDTO.builder().name("OnePlusTest").build();
 
         ResultActions resultActions = mockMvc.perform(post("/phone/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newPhone)))
+                        .content(objectMapper.writeValueAsString(phoneDTO)))
                 .andExpect(status().isCreated());
-        Phone createdPhone = objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), Phone.class);
-        Assertions.assertEquals(newPhone.getName(), createdPhone.getName());
+        Phone createdPhoneEntity = objectMapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), Phone.class);
+        Assertions.assertEquals(phoneDTO.getName(), createdPhoneEntity.getName());
     }
 
     @Test
     @DirtiesContext
     public void testCreatePhoneNotValid() throws Exception {
-        Phone newPhone = new Phone("x");
+        PhoneDTO phoneDTO = PhoneDTO.builder().name("x").build();
 
         ResultActions resultActions = mockMvc.perform(post("/phone/create")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(newPhone)))
+                        .content(objectMapper.writeValueAsString(phoneDTO)))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().json("{\"name\":\"Name must be between 2 and 50 characters\"}"));
     }

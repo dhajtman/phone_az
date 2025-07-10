@@ -1,6 +1,8 @@
 package com.phone.service;
 
+import com.phone.dto.PhoneDTO;
 import com.phone.exception.PhoneNotFoundException;
+import com.phone.mapper.PhoneMapper;
 import com.phone.model.Phone;
 import com.phone.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,57 +16,61 @@ import java.util.stream.Collectors;
 @Service
 public class PhoneServiceImpl implements PhoneService {
     private final PhoneRepository phoneRepository;
+    private final PhoneMapper phoneMapper;
 
-    private List<Phone> phones = new ArrayList<>();
+    private List<PhoneDTO> phoneDTOS = new ArrayList<>();
 
     @Autowired
-    public PhoneServiceImpl(PhoneRepository phoneRepository) {
+    public PhoneServiceImpl(PhoneRepository phoneRepository, PhoneMapper phoneMapper) {
         this.phoneRepository = phoneRepository;
+        this.phoneMapper = phoneMapper;
 
-        phones.add(new Phone(1L, "iPhone"));
-        phones.add(new Phone(2L, "Samsung Galaxy"));
-        phones.add(new Phone(3L, "Google Pixel"));
-        phones.add(new Phone(4L, "Google Pixel"));
+        phoneDTOS.add(new PhoneDTO(1L, "iPhone"));
+        phoneDTOS.add(new PhoneDTO(2L, "Samsung Galaxy"));
+        phoneDTOS.add(new PhoneDTO(3L, "Google Pixel"));
+        phoneDTOS.add(new PhoneDTO(4L, "Google Pixel"));
     }
 
     @Cacheable("phones")
     @Override
-    public List<Phone> getAllPhones() {
-        return phones.stream()
+    public List<PhoneDTO> getAllPhones() {
+        return phoneDTOS.stream()
                 .distinct()
                 .sorted((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void updatePhones(List<Phone> newPhones) {
-        phones = newPhones;
+    public void updatePhones(List<PhoneDTO> newPhones) {
+        phoneDTOS = newPhones;
     }
 
     @Override
     public void updateFromPrimarySource() {
-        List<Phone> primarySourcePhones = phoneRepository.findAll();
+        List<PhoneDTO> primarySourcePhones = phoneMapper.toDtoList(phoneRepository.findAll());
 
         updatePhones(primarySourcePhones);
     }
 
     @Override
-    public Phone getPhoneByIdFromPrimarySource(Long id) {
-        return phoneRepository.findById(id)
-                .orElseThrow(() -> new PhoneNotFoundException("Phone not found with id: " + id));
+    public PhoneDTO getPhoneByIdFromPrimarySource(Long id) {
+        return phoneMapper.toDto(phoneRepository.findById(id)
+                .orElseThrow(() -> new PhoneNotFoundException("Phone not found with id: " + id)));
     }
 
     @Override
-    public Phone getPhoneById(Long id) {
-        return phones.stream()
+    public PhoneDTO getPhoneById(Long id) {
+        return phoneDTOS.stream()
                 .filter(phone -> phone.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new PhoneNotFoundException("Phone not found with id: " + id));
     }
 
     @Override
-    public Phone createPhone(Phone phone) {
-        return phoneRepository.save(phone);
+    public PhoneDTO createPhone(PhoneDTO phoneDto) {
+        Phone entity = phoneMapper.toEntity(phoneDto);              // Map DTO → Entity
+        Phone savedEntity = phoneRepository.save(entity);           // Save Entity
+        return phoneMapper.toDto(savedEntity);                      // Map Entity → DTO
     }
 
     @Override
@@ -73,19 +79,19 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
     @Override
-    public Phone updatePhone(Phone phone) {
-        return phoneRepository.save(phone);
+    public PhoneDTO updatePhone(PhoneDTO phone) {
+        return phoneMapper.toDto(phoneRepository.save(phoneMapper.toEntity(phone)));
     }
 
     @Override
-    public List<Phone> filterByName(String name) {
-        return phones.stream()
+    public List<PhoneDTO> filterByName(String name) {
+        return phoneDTOS.stream()
                 .filter(phone -> phone.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Phone> nameContains(String value) {
-        return phones.stream().filter(p -> p.getName().contains(value)).collect(Collectors.toList());
+    public List<PhoneDTO> nameContains(String value) {
+        return phoneDTOS.stream().filter(p -> p.getName().contains(value)).collect(Collectors.toList());
     }
 }

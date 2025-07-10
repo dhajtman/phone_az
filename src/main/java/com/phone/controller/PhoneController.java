@@ -1,6 +1,6 @@
 package com.phone.controller;
 
-import com.phone.model.Phone;
+import com.phone.dto.PhoneDTO;
 import com.phone.service.PhoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,9 +26,9 @@ public class PhoneController {
 
     @Operation(summary = "Get All Phone Data", description = "Get All Phone Data.")
     @GetMapping("/all")
-    public ResponseEntity<List<Phone>> getAllPhones() {
-        List<Phone> phones = phoneService.getAllPhones();
-        return new ResponseEntity<>(phones, HttpStatus.OK);
+    public ResponseEntity<List<PhoneDTO>> getAllPhones() {
+        List<PhoneDTO> phoneDTOS = phoneService.getAllPhones();
+        return new ResponseEntity<>(phoneDTOS, HttpStatus.OK);
     }
 
     @Operation(summary = "Update Phone Data from primary source", description = "Update Phone Data from primary source.")
@@ -40,15 +40,15 @@ public class PhoneController {
 
     @Operation(summary = "Get Phone with {id}", description = "Get Phone with {id}.")
     @GetMapping("/{id}")
-    public ResponseEntity<Phone> getPhoneById(@PathVariable("id") @Min(1) Long id) {
-        Phone phone = phoneService.getPhoneById(id);
-        return new ResponseEntity<>(phone, HttpStatus.OK);
+    public ResponseEntity<PhoneDTO> getPhoneById(@PathVariable("id") @Min(1) Long id) {
+        PhoneDTO phoneDTO = phoneService.getPhoneById(id);
+        return new ResponseEntity<>(phoneDTO, HttpStatus.OK);
     }
 
     @Operation(summary = "Create Phone", description = "Create Phone.")
     @PostMapping("/create")
-    public ResponseEntity<Phone> createPhone(@Valid @RequestBody Phone phone) {
-        Phone createdPhone = phoneService.createPhone(phone);
-        return new ResponseEntity<>(createdPhone, HttpStatus.CREATED);
+    public ResponseEntity<PhoneDTO> createPhone(@Valid @RequestBody PhoneDTO phoneDTO) {
+        PhoneDTO phone = phoneService.createPhone(phoneDTO);
+        return new ResponseEntity<>(phone, HttpStatus.CREATED);
     }
 }

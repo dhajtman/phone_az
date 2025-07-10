@@ -9,13 +9,18 @@ spring:
 #    open-in-view: true
 #    hibernate:
 #      ddl-auto: create-drop
-#    show-sql: false
+#    show-sql: true
 #  h2:
 #    console:
 #      enabled: true
 #  datasource:
 #    url: jdbc:h2:mem:testdb
 #    driverClassName: org.h2.Driver
+#  main:
+#    allow-bean-definition-overriding: true
+#  sql:
+#    init:
+#      mode: always
   security:
     oauth2:
       resourceserver:

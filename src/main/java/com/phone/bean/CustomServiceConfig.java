@@ -6,10 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "my.service")
+@ConfigurationProperties(prefix = "custom.service")
 @Getter
 @Setter
-public class MyServiceConfig {
+public class CustomServiceConfig {
 
     private String url;
     private int timeout;
