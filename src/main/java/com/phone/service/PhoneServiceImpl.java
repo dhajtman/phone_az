@@ -3,7 +3,6 @@ package com.phone.service;
 import com.phone.dto.PhoneDTO;
 import com.phone.exception.PhoneNotFoundException;
 import com.phone.mapper.PhoneMapper;
-import com.phone.model.Phone;
 import com.phone.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -67,10 +66,8 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
     @Override
-    public PhoneDTO createPhone(PhoneDTO phoneDto) {
-        Phone entity = phoneMapper.toEntity(phoneDto);              // Map DTO → Entity
-        Phone savedEntity = phoneRepository.save(entity);           // Save Entity
-        return phoneMapper.toDto(savedEntity);                      // Map Entity → DTO
+    public PhoneDTO createPhone(PhoneDTO phone) {
+        return phoneMapper.toDto(phoneRepository.save(phoneMapper.toEntity(phone)));
     }
 
     @Override
