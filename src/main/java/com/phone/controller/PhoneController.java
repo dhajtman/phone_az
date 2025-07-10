@@ -41,6 +41,7 @@ public class PhoneController {
 
     @Operation(summary = "Get Phone with {id}", description = "Get Phone with {id}.")
     @ApiResponse(responseCode = "200", description = "Found the phone")
+    @ApiResponse(responseCode = "400", description = "Not valid phone id")
     @ApiResponse(responseCode = "404", description = "Phone not found")
     @GetMapping("/{id}")
     public ResponseEntity<PhoneDTO> getPhoneById(@PathVariable("id") @Min(1) Long id) {
@@ -49,6 +50,8 @@ public class PhoneController {
     }
 
     @Operation(summary = "Create Phone", description = "Create Phone.")
+    @ApiResponse(responseCode = "200", description = "Phone created successfully")
+    @ApiResponse(responseCode = "400", description = "Not valid phone data")
     @PostMapping("/create")
     public ResponseEntity<PhoneDTO> createPhone(@Valid @RequestBody PhoneDTO phoneDTO) {
         PhoneDTO phone = phoneService.createPhone(phoneDTO);
