@@ -32,11 +32,13 @@ public class PhoneControllerIsolatedTest {
     @Test
     @WithMockUser
     void shouldReturnPhoneById() throws Exception {
-        PhoneDTO phone = new PhoneDTO(1L, "iPhone");
+        String phoneName = "iPhone";
+
+        PhoneDTO phone = new PhoneDTO(1L, phoneName);
         when(phoneService.getPhoneById(1L)).thenReturn(phone);
 
         mockMvc.perform(get("/phone/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("iPhone"));
+                .andExpect(jsonPath("$.name").value(phoneName));
     }
 }
