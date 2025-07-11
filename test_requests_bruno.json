@@ -8,7 +8,7 @@
       "filename": "all.bru",
       "seq": 3,
       "request": {
-        "url": "http://localhost:8080/phone/all",
+        "url": "http://localhost:8090/phone/all",
         "method": "GET",
         "headers": [],
         "params": [],
@@ -30,16 +30,44 @@
     },
     {
       "type": "http",
-      "name": "update",
-      "filename": "update.bru",
-      "seq": 5,
+      "name": "create",
+      "filename": "create.bru",
+      "seq": 6,
       "request": {
-        "url": "http://localhost:8080/phone/update",
+        "url": "http://localhost:8090/phone/create",
         "method": "POST",
         "headers": [],
         "params": [],
         "body": {
-          "mode": "none",
+          "mode": "json",
+          "json": "  {\n    \"name\": \"test2\"\n  }",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "create_not_valid",
+      "filename": "create_not_valid.bru",
+      "seq": 7,
+      "request": {
+        "url": "http://localhost:8090/phone/create",
+        "method": "POST",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "  {\n    \"name\": \"\"\n  }",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -60,7 +88,7 @@
       "filename": "id_1.bru",
       "seq": 6,
       "request": {
-        "url": "http://localhost:8080/phone/1",
+        "url": "http://localhost:8090/phone/1",
         "method": "GET",
         "headers": [],
         "params": [],
@@ -108,17 +136,16 @@
     },
     {
       "type": "http",
-      "name": "create",
-      "filename": "create.bru",
-      "seq": 6,
+      "name": "update",
+      "filename": "update.bru",
+      "seq": 5,
       "request": {
-        "url": "http://localhost:8080/phone/create",
+        "url": "http://localhost:8080/phone/update",
         "method": "POST",
         "headers": [],
         "params": [],
         "body": {
-          "mode": "json",
-          "json": "  {\n    \"name\": \"test2\"\n  }",
+          "mode": "none",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -135,17 +162,42 @@
     },
     {
       "type": "http",
-      "name": "create_not_valid",
-      "filename": "create_not_valid.bru",
-      "seq": 7,
+      "name": "id_100",
+      "filename": "id_100.bru",
+      "seq": 8,
       "request": {
-        "url": "http://localhost:8080/phone/create",
-        "method": "POST",
+        "url": "http://localhost:8090/phone/100",
+        "method": "GET",
         "headers": [],
         "params": [],
         "body": {
-          "mode": "json",
-          "json": "  {\n    \"name\": \"\"\n  }",
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": [],
+          "file": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "docs": "",
+        "auth": {
+          "mode": "inherit"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "id_0",
+      "filename": "id_0.bru",
+      "seq": 9,
+      "request": {
+        "url": "http://localhost:8090/phone/0",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
           "formUrlEncoded": [],
           "multipartForm": [],
           "file": []
@@ -170,7 +222,7 @@
       "node_modules",
       ".git"
     ],
-    "size": 0,
-    "filesCount": 0
+    "size": 0.0008029937744140625,
+    "filesCount": 6
   }
 }
