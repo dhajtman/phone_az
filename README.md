@@ -165,6 +165,6 @@ curl -X POST http://localhost:9090/realms/spring-app/protocol/openid-connect/tok
 
 ### Testing secured endpoint
 ```bash
-curl -X GET http://localhost:8090/api/hello \                                       
+curl -X GET http://localhost:8090/api/v1/secured/hello \                                       
   -H "Authorization: Bearer <access_token>"
 ```
