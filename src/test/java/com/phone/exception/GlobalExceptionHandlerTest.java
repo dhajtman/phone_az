@@ -28,7 +28,7 @@ public class GlobalExceptionHandlerTest {
     public void testHandlePhoneNotFoundException() throws Exception {
         when(phoneService.getPhoneById(1L)).thenThrow(new PhoneNotFoundException("Phone not found with id: 1"));
 
-        mockMvc.perform(get("/phone/1"))
+        mockMvc.perform(get("/api/v1/phone/1"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.error").value("Phone not found"))
                 .andExpect(jsonPath("$.message").value("Phone not found with id: 1"));
@@ -39,7 +39,7 @@ public class GlobalExceptionHandlerTest {
     public void testHandleRuntimeException() throws Exception {
         when(phoneService.getPhoneById(1L)).thenThrow(new RuntimeException("Unexpected error"));
 
-        mockMvc.perform(get("/phone/1"))
+        mockMvc.perform(get("/api/v1/phone/1"))
                 .andExpect(status().isInternalServerError())
                 .andExpect(jsonPath("$.error").value("Runtime exception"))
                 .andExpect(jsonPath("$.message").value("Unexpected error"));

@@ -48,7 +48,7 @@ public class PhoneControllerTest {
 
     @Test
     public void testGetAllPhones() throws Exception {
-        mockMvc.perform(get("/phone/all")
+        mockMvc.perform(get("/api/v1/phone/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{'id':3,'name':'Google Pixel'},{'id':1,'name':'iPhone'},{'id':2,'name':'Samsung Galaxy'}]"));
@@ -57,11 +57,11 @@ public class PhoneControllerTest {
     @Test
     @DirtiesContext
     public void testUpdatePhones() throws Exception {
-        mockMvc.perform(post("/phone/update")
+        mockMvc.perform(post("/api/v1/phone/update")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(get("/phone/all")
+        mockMvc.perform(get("/api/v1/phone/all")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":3,\"name\":\"Google Pixel\"},{\"id\":1,\"name\":\"iPhone\"},{\"id\":6,\"name\":\"Nokia\"},{\"id\":5,\"name\":\"OnePlus\"},{\"id\":2,\"name\":\"Samsung Galaxy\"},{\"id\":7,\"name\":\"Sony Xperia\"}]"));
@@ -72,7 +72,7 @@ public class PhoneControllerTest {
     public void testCreatePhone() throws Exception {
         PhoneDTO phoneDTO = PhoneDTO.builder().name("OnePlusTest").build();
 
-        ResultActions resultActions = mockMvc.perform(post("/phone/create")
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/phone/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(phoneDTO)))
                 .andExpect(status().isCreated());
@@ -85,7 +85,7 @@ public class PhoneControllerTest {
     public void testCreatePhoneNotValid() throws Exception {
         PhoneDTO phoneDTO = PhoneDTO.builder().name("x").build();
 
-        ResultActions resultActions = mockMvc.perform(post("/phone/create")
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/phone/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(phoneDTO)))
                 .andExpect(status().isBadRequest())

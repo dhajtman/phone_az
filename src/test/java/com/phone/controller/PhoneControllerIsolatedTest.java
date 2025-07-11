@@ -37,7 +37,7 @@ public class PhoneControllerIsolatedTest {
         PhoneDTO phone = new PhoneDTO(1L, phoneName);
         when(phoneService.getPhoneById(1L)).thenReturn(phone);
 
-        mockMvc.perform(get("/phone/1"))
+        mockMvc.perform(get("/api/v1/phone/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(phoneName));
     }
