@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/phone")
+@RequestMapping("/api/v1/public/phone")
 @Validated
 @Tag(name = "Phone", description = "This API provides the capability to Phone from a Phone Repository")
 public class PhoneController {
