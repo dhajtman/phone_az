@@ -87,8 +87,8 @@ mvn test
 ```
 
 ### Application Endpoints
-- **GET /phone/all: Retrieve all phones**
-- **POST /phone/update: Update phones from the primary source**
+- **GET /api/v1/public/phone/all: Retrieve all phones**
+- **POST /api/v1/public/phone/update: Update phones from the primary source**
 
 ### Configuration
 The application can be configured using the application.properties file located in src/main/resources:
@@ -165,6 +165,6 @@ curl -X POST http://localhost:9090/realms/spring-app/protocol/openid-connect/tok
 
 ### Testing secured endpoint
 ```bash
-curl -X GET http://localhost:8090/api/v1/secured/hello \                                       
+curl -X GET http://localhost:8090/api/v1/private/hello \                                       
   -H "Authorization: Bearer <access_token>"
 ```

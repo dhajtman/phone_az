@@ -10,9 +10,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -29,3 +29,6 @@ custom:
   service:
     url: https://api.example.com
     timeout: 5000
+
+jwt:
+  jwks-url: http://localhost:9090/realms/spring-app/protocol/openid-connect/certs
